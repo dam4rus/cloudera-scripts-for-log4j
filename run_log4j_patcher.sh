@@ -16,6 +16,7 @@ PROG=$(basename "$0")
 BASEDIR=$(dirname "$0")
 CDH_CDP_SCRIPT="$BASEDIR/cm_cdp_cdh_log4j_jndi_removal.sh"
 HDP_SCRIPT="$BASEDIR/hdp_log4j_jndi_removal.sh"
+HDF_SCRIPT="$BASEDIR/hdf_log4j_jndi_removal.sh"
 
 log_info() {
     echo "INFO : ${1}" 1>&2
@@ -33,6 +34,7 @@ subcommand_usage() {
         cdh               Scan a CDH cluster node
         cdp               Scan a CDP cluster node
         hdp               Scan a HDP cluster node
+        hdf               Scan a HDF cluster node
 
     Options (cdh and cdp subcommands only):
         -t <targetdir>    Override target directory (default: distro-specific)
@@ -91,6 +93,15 @@ subcommand_hdp() {
     log_info "Finished"
 }
 
+subcommand_hdf() {
+    log_info "Running HDF patcher script: $HDF_SCRIPT"
+    logfile=$(mktemp output_run_log4j_patcher.XXXXXX)
+    log_info "Log file: $logfile"
+    $HDF_SCRIPT | tee "$logfile" 2>&1
+
+    log_info "Finished"
+}
+
 main() {
 
     subcommand="$1"
@@ -109,6 +120,9 @@ main() {
             ;;
         hdp)
             subcommand_hdp "$@"
+            ;;
+        hdf)
+            subcommand_hdf "$@"
             ;;
         *)
             # unknown option

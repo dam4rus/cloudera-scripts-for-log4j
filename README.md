@@ -27,6 +27,7 @@ Usage: run_log4j_patcher.sh (subcommand) [options]
         cdh               Scan a CDH cluster node
         cdp               Scan a CDP cluster node
         hdp               Scan a HDP cluster node
+        hdf               Scan a HDF cluster node
 
     Options (cdh and cdp subcommands only):
         -t <targetdir>    Override target directory (default: distro-specific)
